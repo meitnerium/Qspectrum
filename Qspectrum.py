@@ -694,22 +694,23 @@ def add_calcul(molid):
     cancelbtn = Button(t, text='Cancel', command=t.destroy)
     cancelbtn.grid(row=2, column=1)
 
-
 def scanbasis(file):
     f = open(file)
     for line in f:
-    #if line[0:16] == " Standard basis:":
-    #        print(line)
-    #        basis = line[17:-1]
-    #        print("BASIS = ---"+basis+"---")
-        if line[0:23] == " Test job not archived.":
+        if line[1:13] == "Gaussian 09:":
+            print("Gaussian version 09")
+
+            while line[1:5] != "----":
+                line = next(f)
             line = next(f)
+            print("This is the line :")
             print(line)
             import re
-            # ([0-9a-zA-Z\-]*)\\([0-9a-zA-Z\-]*)\\
-            m = re.search(r' [0-9]\\[0-9]\\[0-9a-zA-Z\-]*\\[0-9a-zA-Z\-]*\\([0-9a-zA-Z\-]*)\\([0-9a-zA-Z\-]*)',line)
-            funct = m.group(1)
-            basis = m.group(2)
+            m = re.search('([-a-zA-Z0-9]*)/([-a-zA-Z0-9]*)', line)
+            print("test")
+            print(m.group(2))
+            funct=m.group(1)
+            basis=m.group(2)
     return basis,funct
 
 
